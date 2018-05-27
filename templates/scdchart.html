@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <h1><small>Service Category Distribution Chart</small></h1>
+  <h3><small>Date: {{the_date}}</small></h3>
+  <div id="chart_div" style="width: 900px; height: 500px;"></div>
+ 
+ 
+<script type='text/javascript'>//<![CDATA[ 
+ 
+google.charts.load('current', {'packages':['bar']});
+google.charts.setOnLoadCallback(drawChart);
+ 
+function drawChart() {
+ 
+      var data = google.visualization.arrayToDataTable([
+        ['Service Category', 'Count'],
+		{% for entry in scd_list %}
+		['{{entry.categories}}',{{entry.my_count}}],
+		{% endfor %}
+      ]);
+ 
+      var options = {
+          legend: { position: 'none' },
+		  hAxis: {
+			title: 'Service Categories',
+			'textStyle': {'fontSize': 11}
+          },
+         vAxis: {
+			title: 'Visitor Count'
+          },
+          bars: 'vertical' // Required for Material Bar Charts.
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart_div'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+//]]>  
+ 
+</script>
+{% endblock %}

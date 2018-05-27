@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">WICApp</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About<span class="sr-only">(current)</span></a>
+      </li>
+	  {% if (session.logged_in and session.role_type == 1) %}
+      <li class="nav-item">
+        <a class="nav-link" href="/visitors">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/stats">Stats</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Chart
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/ttwchart">Time to Window</a>
+          <a class="dropdown-item" href="/ptchart">Service Time</a>
+          <a class="dropdown-item" href="/atchart">Activity Timeline</a>
+		  <a class="dropdown-item" href="/scdchart">Service Categories</a>
+        </div>
+      </li>
+	  <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Users
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/register">Add</a>
+          <a class="dropdown-item" href="/users">Modify</a>
+        </div>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+	  {% elif (session.logged_in and session.role_type != 1) %}
+	  <li class="nav-item">
+        <a class="nav-link" href="/visitors">Dashboard</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+	  {% else %}
+	  <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+	  {%endif%}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  {% if session.role_type == 1%}
+    <h1><small> Welcome {{session.uname}}, Role: Supervisor</small></h1>
+  {% elif session.role_type == 2 %}
+    <h1><small> Welcome {{session.uname}}, Role: CSR</small></h1>
+  {% elif session.role_type == 3 %}
+    <h1><small> Welcome {{session.uname}}, Role: Security</small></h1>
+  {% endif %}
+  {% from "includes/_formhelpers.html" import render_field %}
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+	  <th>Actions</th>
+    </tr>
+    {% for user in users %}
+      <tr>
+        <td>{{user.name}}</a></td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+		{% if user.role_type == 1%}
+          <td>Supervisor</td>
+		{% elif user.role_type == 2 %}
+		  <td>CSR</td>
+		{% elif user.role_type == 3 %}
+		  <td>Security</td>
+		{% endif %}
+		{% if session.username != user.username%}
+		  <td><a href="/edituser/{{user.idusers}}">Edit</a><a href="/deluser/{{user.idusers}}">, Delete</a></td>
+		{% else %}
+		  <td><a href="/edituser/{{user.idusers}}">Edit</a>, N/A</td>
+		{% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

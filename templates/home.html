@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1>Welcome to NY E-ZPass®</h1>
+    <p class="lead">This application is restricted for use by authorized Walk-In Center personnel</p>
+    {% if session.logged_in == NULL %}
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+    {% endif %}
+  </div>
+{% endblock %}

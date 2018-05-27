@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  {% if session.role_type == 1%}
+    <h1><small> Welcome {{session.uname}}, Role: Supervisor</small></h1>
+  {% elif session.role_type == 2 %}
+    <h1><small> Welcome {{session.uname}}, Role: CSR</small></h1>
+  {% elif session.role_type == 3 %}
+    <h1><small> Welcome {{session.uname}}, Role: Security</small></h1>
+  {% endif %}
+  {% from "includes/_formhelpers.html" import render_field %}
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Entry Time</th>
+      <th>Window Arrival Time</th>
+      <th>Window Departure Time</th>
+    </tr>
+    {% for visit in visitors %}
+      <tr>
+        <td><a href="/single_visit/{{visit.idwic_visit}}">{{visit.idwic_visit}}</a></td>
+        <td>{{visit.entry_ts}}</td>
+        <td>{{visit.at_window_ts}}</td>
+        <td>{{visit.leave_window_ts}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+    {% if (session.role_type == 1 or session.role_type == 3)%}
+      <a href="/new_visitor" class="btn btn-success btn-lg">New Visitor</a>
+	{% elif session.role_type == 2 %}
+	  <form method="POST" action="">
+	    <div class="form-group">
+          {{render_field(form.visitor_id, class_="form-control")}}
+        </div>
+        <p><input type="submit" class="btn btn-primary" value="Search"></p>
+      </form>
+    {% endif %}
+{% endblock %}

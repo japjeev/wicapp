@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  {% if session.role_type == 1%}
+    <h1><small> Welcome {{session.uname}}, Role: Supervisor</small></h1>
+  {% elif session.role_type == 2 %}
+    <h1><small> Welcome {{session.uname}}, Role: CSR</small></h1>
+  {% elif session.role_type == 3 %}
+    <h1><small> Welcome {{session.uname}}, Role: Security</small></h1>
+  {% endif %}
+  {% from "includes/_formhelpers.html" import render_field %}
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Entry Time</th>
+      <th>Window Arrival Time</th>
+      <th>Window Departure Time</th>
+      <th>Categories</th>
+    </tr>
+    <tr>
+      <td>{{visit.idwic_visit}}</td>
+      <td>{{visit.entry_ts}}</td>
+	  {% if visit.at_window_ts == None %}
+        <form method="POST" action="">
+          <td><input type="submit" name="checkin" class="btn btn-primary" value="Check-In">
+		  <input type="hidden" name="setcategory" value="0">
+		  <input type="hidden" name="category" value="0">
+		  <input type="hidden" name="checkout" value="0"></td>
+		  <td>N/A</td>
+          <td>N/A</td>
+        </form>
+	  {% elif (visit.at_window_ts != None and visit.categories == None) %}
+	    <form method="POST" action="">
+		  <td>{{visit.at_window_ts}}</td>
+		  <td>N/A</td>
+		  <td>
+		    <select multiple name="category" class="form-control">
+		     <option value="1" selected>PPTL Cash</option>
+		     <option value="2">PPTL Cheque</option>
+		     <option value="3">PPTL Credit Card</option>
+		     <option value="4">PPTL ACH</option>
+		     <option value="5">Violation/Toll Bill Payments</option>
+		     <option value="6">Account Conversion</option>
+		     <option value="7">Application Processing</option>
+		     <option value="8">Account Closure</option>
+		     <option value="9">Tag Issuance</option>
+		     <option value="10">Account Update (demographics, plans, license plates, etc.)</option>
+		     <option value="11">Leasing (Uber, Lyft, rentals, etc.)</option>
+		     <option value="12">DMV Suspension (incl. impounded and excluded vehicles)</option>
+		     <option value="13">Other</option>
+		    </select>
+			<br><input type="submit" name="setcategory" class="btn btn-primary" value="Select Categories">
+			<input type="hidden" name="checkin" value="0">
+			<input type="hidden" name="checkout" value="0">
+		  </td>
+		</form>
+	  {% elif (visit.at_window_ts != None and visit.categories != None and visit.leave_window_ts == None) %}
+	    <form method="POST" action="">
+		  <td>{{visit.at_window_ts}}</td>
+          <td><input type="submit" name="checkout" class="btn btn-primary" value="Check-Out">
+		  <input type="hidden" name="checkin" value="0">
+		  <input type="hidden" name="setcategory" value="0">
+		  <input type="hidden" name="category" value="0"></td>
+		  <td>{{str_categories}}</td>
+        </form>
+	  
+	  {% else %}
+	    <td>{{visit.at_window_ts}}</td>
+        <td>{{visit.leave_window_ts}}</td>
+        <td>{{str_categories}}</td>
+	  {% endif %}
+    </tr>
+  </table>
+{% endblock %}

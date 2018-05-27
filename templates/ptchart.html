@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+ <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <h1><small>Service Time Chart</small></h1>
+  <h3><small>Date: {{the_date}}</small></h3>
+  <div id="chart_div" style="width: 1000px; height: 500px;"></div>
+ 
+ 
+<script type='text/javascript'>//<![CDATA[ 
+ 
+google.load('visualization', '1', {packages: ['corechart']});
+google.setOnLoadCallback(drawBasic);
+ 
+function drawBasic() {
+ 
+      var data = google.visualization.arrayToDataTable([
+        ['Service Time'],
+		{% for entry in service_times %}
+		[{{entry.tdiff}}],
+		{% endfor %}
+      ]);
+ 
+      var options = {
+        legend: { position: 'none' },
+		 hAxis: {
+          title: 'Seconds'
+          },
+         vAxis: {
+          title: 'Visitor Count'
+          },
+      };
+ 
+      var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+ 
+      chart.draw(data, options);
+    }
+//]]>  
+ 
+</script>
+{% endblock %}

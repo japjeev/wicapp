@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  {% if session.role_type == 1%}
+    <h1><small> Welcome {{session.uname}}, Role: Supervisor</small></h1>
+  {% elif session.role_type == 2 %}
+    <h1><small> Welcome {{session.uname}}, Role: CSR</small></h1>
+  {% elif session.role_type == 3 %}
+    <h1><small> Welcome {{session.uname}}, Role: Security</small></h1>
+  {% endif %}
+  {% from "includes/_formhelpers.html" import render_field %}
+  <hr>
+  <p>Daily Statistics:{{stats_str.split(",")[5]}}</p>
+  <table class="table table-striped">
+    <tr>
+      <th>Visitor Count</th>
+      <th>Min. TTW</th>
+      <th>Max. TTW</th>
+      <th>Avg. TTW</th>
+	  <th>TTW < 600s</th>
+    </tr>
+    <tr>
+      <td>{{stats_str.split(",")[0]}}</a></td>
+      <td>{{stats_str.split(",")[1]}}</td>
+      <td>{{stats_str.split(",")[2]}}</td>
+	  <td>{{stats_str.split(",")[3]}}</td>
+	  <td>{{stats_str.split(",")[4]}}</td>
+    </tr>
+  </table>
+  <p>Weekly Statistics</p>
+  <table class="table table-striped">
+    <tr>
+	  <th>Date</th>
+      <th>Visitor Count</th>
+      <th>Min. TTW</th>
+      <th>Max. TTW</th>
+      <th>Avg. TTW</th>
+	</tr>
+	{% for the_day in weekly_stats %}
+    <tr>
+      <td>{{the_day.day}}</a></td>
+      <td>{{the_day.my_count}}</td>
+      <td>{{the_day.my_min}}</td>
+	  <td>{{the_day.my_max}}</td>
+	  <td>{{the_day.my_avg}}</td>
+    </tr>
+	{% endfor %}
+  </table>
+  <p>Monthly Statistics: {{currentMonth}}</p>
+  <table class="table table-striped">
+    <tr>
+      <th>Visitor Count</th>
+      <th>Min. TTW</th>
+      <th>Max. TTW</th>
+      <th>Avg. TTW</th>
+	  <th>TTW < 600s</th>
+    </tr>
+    <tr>
+      <td>{{stats_str2.split(",")[0]}}</a></td>
+      <td>{{stats_str2.split(",")[1]}}</td>
+      <td>{{stats_str2.split(",")[2]}}</td>
+	  <td>{{stats_str2.split(",")[3]}}</td>
+	  <td>{{stats_str2.split(",")[4]}}</td>
+    </tr>
+  </table>
+{% endblock %}
