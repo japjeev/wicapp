@@ -49,7 +49,7 @@ sudo nano /etc/nginx/sites-available/myflaskapp
 10. Paste the following into the file and save it (Change DNS Name)
 server {
     listen       80;
-    server_name  ec2-34-224-221-248.compute-1.amazonaws.com;
+    server_name  _;
 
     location / {
         proxy_pass http://127.0.0.1:8000;
@@ -80,4 +80,4 @@ sudo supervisorctl reload
 sudo supervisorctl status
 
 13. Test WICApp from any web browser
-http://ec2-34-224-221-248.compute-1.amazonaws.com
+http://ec2-X-X-X-X.compute-1.amazonaws.com
